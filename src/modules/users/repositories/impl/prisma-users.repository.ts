@@ -14,7 +14,7 @@ class PrismaUsersRepository implements UsersRepository {
     return prisma.user.findFirst({
       where: {
         AND: [
-          filteringUtil.text("id", filter.id),
+          filteringUtil.text("id", filter.id, TextSearchMode.Exact),
           filteringUtil.text("name", filter.name),
           filteringUtil.text("email", filter.email, TextSearchMode.Exact),
         ],
@@ -22,14 +22,24 @@ class PrismaUsersRepository implements UsersRepository {
     });
   }
 
-  findAll(filter: Partial<UserEntity>): Promise<UserEntity[]> {
+  findAll(
+    filter?: Partial<UserEntity>
+  ): Promise<Omit<UserEntity, "password">[]> {
     return prisma.user.findMany({
       where: {
         AND: [
-          filteringUtil.text("id", filter.id, TextSearchMode.Exact),
-          filteringUtil.text("name", filter.name),
-          filteringUtil.text("email", filter.email, TextSearchMode.Exact),
+          filteringUtil.text("id", filter?.id, TextSearchMode.Exact),
+          filteringUtil.text("name", filter?.name),
+          filteringUtil.text("email", filter?.email, TextSearchMode.Exact),
         ],
+      },
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        image: true,
+        createdAt: true,
+        updatedAt: true,
       },
     });
   }
