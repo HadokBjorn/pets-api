@@ -16,9 +16,10 @@ class UsersController {
     reply: FastifyReply
   ) {
     const { id } = req.params;
+
     const result = await findUserByIdUseCase.execute(id);
 
-    reply.status(httpStatus.OK).send({ results: result });
+    reply.status(httpStatus.OK).send({ result });
   }
 }
 export default new UsersController();
