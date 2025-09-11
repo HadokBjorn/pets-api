@@ -46,14 +46,14 @@ class PrismaUsersRepository implements UsersRepository {
 
   update(id: string, data: Partial<UserEntity>): Promise<UserEntity> {
     return prisma.user.update({
-      where: filteringUtil.text("id", id, TextSearchMode.Exact),
+      where: { id },
       data,
     });
   }
 
   async delete(id: string): Promise<void> {
     await prisma.user.delete({
-      where: filteringUtil.text("id", id, TextSearchMode.Exact),
+      where: { id },
     });
   }
 }
