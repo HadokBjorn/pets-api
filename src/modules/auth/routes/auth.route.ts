@@ -1,16 +1,30 @@
-import { createUserSchema } from "@/modules/users/schemas/create-user.schema";
-import validateSchema from "@/shared/middlewares/impl/validate-schema.middleware";
-import { Router } from "express";
-import { loginSchema } from "../schemas/login.schema";
+import { FastifyTypedInstance } from "@/shared/types/fastify.type";
 import authController from "../controllers/auth.controller";
+import { loginSchemaBody } from "../schemas/login.schema";
+import { createUserBodySchema } from "@/modules/users/schemas/create-user.schema";
 
-const authRotes = Router();
+export const authRoutes = async (app: FastifyTypedInstance) => {
+  app.post(
+    "/auth/signup",
+    {
+      schema: {
+        tags: ["auth"],
+        description: "Cadastro no sistema",
+        body: createUserBodySchema,
+      },
+    },
+    authController.signup
+  );
 
-authRotes.post(
-  "/signup",
-  validateSchema(createUserSchema),
-  authController.signup
-);
-authRotes.post("/login", validateSchema(loginSchema), authController.login);
-
-export default authRotes;
+  app.post(
+    "/auth/login",
+    {
+      schema: {
+        tags: ["auth"],
+        description: "Login no sistema",
+        body: loginSchemaBody,
+      },
+    },
+    authController.login
+  );
+};

@@ -1,18 +1,14 @@
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
-import { Request, Response, NextFunction } from "express";
 import { UnauthorizedException } from "../../exceptions";
 import prismaUsersRepository from "@/modules/users/repositories/impl/prisma-users.repository";
+import { FastifyReply, FastifyRequest } from "fastify";
 dotenv.config();
 
 interface UserPayload {
   id: string;
 }
-export async function authorization(
-  req: Request,
-  res: Response,
-  next: NextFunction
-) {
+export async function authorization(req: FastifyRequest, reply: FastifyReply) {
   const { authorization } = req.headers;
 
   const message = "Unauthorized user! make sure you are logged in";
@@ -36,8 +32,6 @@ export async function authorization(
 
     req.auth_user_id = id;
     req.user = user;
-
-    return next();
   } catch (err) {
     throw new UnauthorizedException("Token expirado ou inválido.");
   }

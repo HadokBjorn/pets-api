@@ -1,11 +1,10 @@
 import { Exception } from "@/shared/exceptions/exception";
-import { NextFunction, Request, Response } from "express";
+import { FastifyError, FastifyReply, FastifyRequest } from "fastify";
 
 export const exceptionMiddleware = (
-  error: Error & Partial<Exception>,
-  req: Request,
-  res: Response,
-  next: NextFunction
+  error: FastifyError & Partial<Exception>,
+  request: FastifyRequest,
+  reply: FastifyReply
 ) => {
   const issuedAt = new Date();
 
@@ -15,5 +14,5 @@ export const exceptionMiddleware = (
   const message = error.statusCode ? error.message : "Internal Server Error";
   const code = error.code ?? "INTERNAL_SERVER_ERROR";
 
-  return res.status(statusCode).json({ message, statusCode, code });
+  return reply.status(statusCode).send({ message, statusCode, code });
 };

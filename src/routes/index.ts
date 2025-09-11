@@ -1,6 +1,18 @@
-import authRotes from "@/modules/auth/routes/auth.route";
-import { Router } from "express";
+import { authRoutes } from "@/modules/auth/routes/auth.route";
+import { usersRoutes } from "@/modules/users/routes/users.route";
+import { authorization } from "@/shared/middlewares";
+import { FastifyTypedInstance } from "@/shared/types/fastify.type";
 
-const routes = Router();
-routes.use("/auth", authRotes);
-export default routes;
+export const routes = async (app: FastifyTypedInstance) => {
+  // public routes
+  await authRoutes(app);
+
+  // private routes
+  await app.register(async (privateApp) => {
+    privateApp.addHook("preHandler", authorization);
+
+    await usersRoutes(privateApp);
+
+    // add other privates routes here
+  });
+};

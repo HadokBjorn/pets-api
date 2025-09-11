@@ -1,7 +1,6 @@
-import joi from "joi";
-import { LoginDto } from "../dtos/login.dto";
+import z from "zod";
 
-export const loginSchema = joi.object<LoginDto>({
-  email: joi.string().email().required(),
-  password: joi.string().min(6).required(),
+export const loginSchemaBody = z.object({
+  email: z.email(),
+  password: z.string().min(6),
 });

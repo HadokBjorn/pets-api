@@ -1,9 +1,8 @@
-import joi from "joi";
-import { CreateUserDto } from "../dtos/create-user.dto";
+import z from "zod";
 
-export const createUserSchema = joi.object<CreateUserDto>({
-  name: joi.string().min(3).required(),
-  image: joi.string().uri().optional(),
-  email: joi.string().email().required(),
-  password: joi.string().min(6).required(),
+export const createUserBodySchema = z.object({
+  name: z.string().min(3),
+  image: z.url().optional(),
+  email: z.email(),
+  password: z.string().min(6),
 });
