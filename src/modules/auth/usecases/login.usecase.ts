@@ -2,7 +2,7 @@ import { LoginDto } from "../dtos/login.dto";
 import prismaUsersRepository from "@/modules/users/repositories/impl/prisma-users.repository";
 import { NotFoundException, UnauthorizedException } from "@/shared/exceptions";
 import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
+import generateAuthTokenUtil from "../utils/generate-auth-token.util";
 
 class LoginUseCase {
   async execute({ email, password }: LoginDto) {
@@ -19,11 +19,9 @@ class LoginUseCase {
     if (!isCorrectPassword)
       throw new UnauthorizedException("Invalid credentials.");
 
-    const accessToken = jwt.sign({ id: user.id }, process.env.SECRET_KEY, {
-      expiresIn: "1d",
-    });
+    const accessToken = generateAuthTokenUtil.execute(user.id);
 
-    return { user, accessToken };
+    return { ...user, accessToken };
   }
 }
 
