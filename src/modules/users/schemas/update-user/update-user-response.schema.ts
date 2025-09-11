@@ -1,7 +1,7 @@
 import z from "zod";
 import { createUserResponseSchema } from "../create-user/create-user-response.schema";
 
-export const updateSelfUserResponseSchema = z.object({
+export const updateUserResponseSchema = z.object({
   result: z.object({
     id: z.string(),
     name: z.string(),

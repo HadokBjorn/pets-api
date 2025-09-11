@@ -1,3 +1,3 @@
 import { createUserBodySchema } from "../create-user/create-user.schema";
 
-export const updateSelfUserBodySchema = createUserBodySchema.partial();
+export const updateUserBodySchema = createUserBodySchema.partial();

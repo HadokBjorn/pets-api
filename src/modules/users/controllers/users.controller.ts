@@ -3,8 +3,8 @@ import findUsersUseCase from "../usecases/find-users.usecase";
 import { FastifyReply, FastifyRequest } from "fastify";
 import findUserByIdUseCase from "../usecases/find-user-by-id.usecase";
 import { FindUserByIdDto } from "../dtos/find-user-by-id.dto";
-import { UpdateSelfUserDto } from "../dtos/update-self-user.dto";
-import updateSelfUserUseCase from "../usecases/update-self-user.usecase";
+import { UpdateUserDto } from "../dtos/update-user.dto";
+import updateUserUseCase from "../usecases/update-user.usecase";
 
 class UsersController {
   async findAll(req: FastifyRequest, reply: FastifyReply) {
@@ -25,13 +25,21 @@ class UsersController {
   }
 
   async updateSelf(
-    req: FastifyRequest<{ Body: UpdateSelfUserDto }>,
+    req: FastifyRequest<{ Body: UpdateUserDto }>,
     reply: FastifyReply
   ) {
-    const result = await updateSelfUserUseCase.execute(
-      req.auth_user_id,
-      req.body
-    );
+    const result = await updateUserUseCase.execute(req.auth_user_id, req.body);
+
+    reply.status(httpStatus.OK).send({ result });
+  }
+
+  async updateById(
+    req: FastifyRequest<{ Params: FindUserByIdDto; Body: UpdateUserDto }>,
+    reply: FastifyReply
+  ) {
+    const { id } = req.params;
+
+    const result = await updateUserUseCase.execute(id, req.body);
 
     reply.status(httpStatus.OK).send({ result });
   }

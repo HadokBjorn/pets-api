@@ -1,9 +1,9 @@
 import { NotFoundException } from "@/shared/exceptions";
-import { UpdateSelfUserDto } from "../dtos/update-self-user.dto";
+import { UpdateUserDto } from "../dtos/update-user.dto";
 import prismaUsersRepository from "../repositories/impl/prisma-users.repository";
 
-class updateSelfUserUseCase {
-  async execute(id: string, input: UpdateSelfUserDto) {
+class updateUserUseCase {
+  async execute(id: string, input: UpdateUserDto) {
     const user = await prismaUsersRepository.find({ id });
 
     if (!user) {
@@ -17,4 +17,4 @@ class updateSelfUserUseCase {
     return updatedUser;
   }
 }
-export default new updateSelfUserUseCase();
+export default new updateUserUseCase();

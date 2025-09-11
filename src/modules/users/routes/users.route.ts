@@ -3,8 +3,8 @@ import usersController from "../controllers/users.controller";
 import { findUserByIdParamSchema } from "../schemas/find-user-by-id/find-user-by-id.schema";
 import { findUsersResponseSchema } from "../schemas/find-users/find-users-response.schema";
 import { findUserByIdResponseSchema } from "../schemas/find-user-by-id/find-user-by-id-response.schema";
-import { updateSelfUserBodySchema } from "../schemas/update-self-user/update-self-user.schema";
-import { updateSelfUserResponseSchema } from "../schemas/update-self-user/update-self-user-response.schema";
+import { updateUserBodySchema } from "../schemas/update-user/update-user.schema";
+import { updateUserResponseSchema } from "../schemas/update-user/update-user-response.schema";
 
 export const usersRoutes = async (app: FastifyTypedInstance) => {
   app.get(
@@ -29,13 +29,30 @@ export const usersRoutes = async (app: FastifyTypedInstance) => {
         tags: ["users"],
         security: [{ bearerAuth: [] }],
         description: "Atualização do usuário logado no sistema",
-        body: updateSelfUserBodySchema,
+        body: updateUserBodySchema,
         response: {
-          200: updateSelfUserResponseSchema,
+          200: updateUserResponseSchema,
         },
       },
     },
     usersController.updateSelf
+  );
+
+  app.patch(
+    "/users/:id",
+    {
+      schema: {
+        tags: ["users"],
+        security: [{ bearerAuth: [] }],
+        params: findUserByIdParamSchema,
+        body: updateUserBodySchema,
+        description: "Atualização de Usuário por ID",
+        response: {
+          200: updateUserResponseSchema,
+        },
+      },
+    },
+    usersController.updateById
   );
 
   app.get(
