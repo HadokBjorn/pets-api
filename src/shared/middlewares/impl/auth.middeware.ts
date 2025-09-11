@@ -26,7 +26,7 @@ export async function authorization(
 
     if (!token) throw new UnauthorizedException(message);
 
-    const { id } = jwt.verify(token, process.env.JWT_SECRET) as UserPayload;
+    const { id } = jwt.verify(token, process.env.SECRET_KEY) as UserPayload;
 
     const user = await prismaUsersRepository.find({ id });
 
