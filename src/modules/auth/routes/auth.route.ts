@@ -1,9 +1,9 @@
 import { FastifyTypedInstance } from "@/shared/types/fastify.type";
 import authController from "../controllers/auth.controller";
-import { loginSchemaBody } from "../schemas/login.schema";
-import { createUserBodySchema } from "@/modules/users/schemas/create-user.schema";
-import { loginResponseSchema } from "../schemas/login-response.schema";
-import { createUserResponseSchema } from "@/modules/users/schemas/create-user-response.schema";
+import { loginSchemaBody } from "../schemas/login/login.schema";
+import { createUserBodySchema } from "@/modules/users/schemas/create-user/create-user.schema";
+import { loginResponseSchema } from "../schemas/login/login-response.schema";
+import { createUserResponseSchema } from "@/modules/users/schemas/create-user/create-user-response.schema";
 
 export const authRoutes = async (app: FastifyTypedInstance) => {
   app.post(
