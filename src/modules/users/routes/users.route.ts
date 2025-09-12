@@ -70,4 +70,18 @@ export const usersRoutes = async (app: FastifyTypedInstance) => {
     },
     usersController.findById
   );
+
+  app.delete(
+    "/users/:id",
+    {
+      schema: {
+        tags: ["users"],
+        security: [{ bearerAuth: [] }],
+        params: findUserByIdParamSchema,
+        description: "Deletar Usuário por ID",
+        response: 204,
+      },
+    },
+    usersController.delete
+  );
 };

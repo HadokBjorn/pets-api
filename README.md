@@ -11,11 +11,11 @@ GET /pets/stats
   
 POST /pets/:id/adopt
 
-GET /users  
-POST /users  
-GET /users/:id  
-PUT /users/:id  
-DELETE /users/:id
+GET /users  => OK
+POST /users  => /auth/signup
+GET /users/:id  => OK
+PUT /users/:id  => OK
+DELETE /users/:id => OK
 
 ```
 interface Pet {

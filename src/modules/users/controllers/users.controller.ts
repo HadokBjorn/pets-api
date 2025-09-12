@@ -1,14 +1,15 @@
 import httpStatus from "http-status";
-import findUsersUseCase from "../usecases/find-users.usecase";
+import FindUsersUseCase from "../usecases/find-users.usecase";
 import { FastifyReply, FastifyRequest } from "fastify";
-import findUserByIdUseCase from "../usecases/find-user-by-id.usecase";
+import FindUserByIdUseCase from "../usecases/find-user-by-id.usecase";
 import { FindUserByIdDto } from "../dtos/find-user-by-id.dto";
 import { UpdateUserDto } from "../dtos/update-user.dto";
-import updateUserUseCase from "../usecases/update-user.usecase";
+import UpdateUserUseCase from "../usecases/update-user.usecase";
+import deleteUserUseCase from "../usecases/delete-user.usecase";
 
 class UsersController {
   async findAll(req: FastifyRequest, reply: FastifyReply) {
-    const results = await findUsersUseCase.execute();
+    const results = await FindUsersUseCase.execute();
 
     reply.status(httpStatus.OK).send({ results });
   }
@@ -19,7 +20,7 @@ class UsersController {
   ) {
     const { id } = req.params;
 
-    const result = await findUserByIdUseCase.execute(id);
+    const result = await FindUserByIdUseCase.execute(id);
 
     reply.status(httpStatus.OK).send({ result });
   }
@@ -28,7 +29,7 @@ class UsersController {
     req: FastifyRequest<{ Body: UpdateUserDto }>,
     reply: FastifyReply
   ) {
-    const result = await updateUserUseCase.execute(req.auth_user_id, req.body);
+    const result = await UpdateUserUseCase.execute(req.auth_user_id, req.body);
 
     reply.status(httpStatus.OK).send({ result });
   }
@@ -39,9 +40,20 @@ class UsersController {
   ) {
     const { id } = req.params;
 
-    const result = await updateUserUseCase.execute(id, req.body);
+    const result = await UpdateUserUseCase.execute(id, req.body);
 
     reply.status(httpStatus.OK).send({ result });
+  }
+
+  async delete(
+    req: FastifyRequest<{ Params: FindUserByIdDto }>,
+    reply: FastifyReply
+  ) {
+    const { id } = req.params;
+
+    await deleteUserUseCase.execute(id);
+
+    reply.status(httpStatus.NO_CONTENT);
   }
 }
 export default new UsersController();

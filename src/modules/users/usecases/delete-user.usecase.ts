@@ -2,19 +2,15 @@ import { NotFoundException } from "@/shared/exceptions";
 import { UpdateUserDto } from "../dtos/update-user.dto";
 import prismaUsersRepository from "../repositories/impl/prisma-users.repository";
 
-class UpdateUserUseCase {
-  async execute(id: string, input: UpdateUserDto) {
+class DeleteUserUseCase {
+  async execute(id: string) {
     const user = await prismaUsersRepository.find({ id });
 
     if (!user) {
       throw new NotFoundException("User not found");
     }
 
-    const updatedUser = await prismaUsersRepository.update(user.id, input);
-
-    delete updatedUser.password;
-
-    return updatedUser;
+    await prismaUsersRepository.delete(id);
   }
 }
-export default new UpdateUserUseCase();
+export default new DeleteUserUseCase();

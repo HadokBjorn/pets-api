@@ -1,8 +1,8 @@
 import prismaUsersRepository from "../repositories/impl/prisma-users.repository";
 
-class findUsersUseCase {
+class FindUsersUseCase {
   async execute() {
     return await prismaUsersRepository.findAll();
   }
 }
-export default new findUsersUseCase();
+export default new FindUsersUseCase();

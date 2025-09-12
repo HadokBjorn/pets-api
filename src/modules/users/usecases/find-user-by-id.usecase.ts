@@ -1,6 +1,6 @@
 import prismaUsersRepository from "../repositories/impl/prisma-users.repository";
 
-class findUserByIdUseCase {
+class FindUserByIdUseCase {
   async execute(id: string) {
     const user = await prismaUsersRepository.find({ id });
 
@@ -9,4 +9,4 @@ class findUserByIdUseCase {
     return user;
   }
 }
-export default new findUserByIdUseCase();
+export default new FindUserByIdUseCase();
