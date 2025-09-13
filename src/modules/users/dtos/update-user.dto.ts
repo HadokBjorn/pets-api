@@ -1,6 +1,3 @@
-export class UpdateUserDto {
-  name?: string;
-  email?: string;
-  password?: string;
-  image?: string;
-}
+import { CreateUserDto } from "./create-user.dto";
+
+export class UpdateUserDto extends PartialType(CreateUserDto) {}
