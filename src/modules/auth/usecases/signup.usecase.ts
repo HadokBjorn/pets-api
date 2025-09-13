@@ -1,8 +1,8 @@
 import { CreateUserDto } from "@/modules/users/dtos/create-user.dto";
 import prismaUsersRepository from "@/modules/users/repositories/impl/prisma-users.repository";
 import { ConflictException } from "@/shared/exceptions";
-import bcrypt from "bcrypt";
 import generateAuthTokenUtil from "../utils/generate-auth-token.util";
+import generateHashPassword from "../utils/generate-hash-password";
 
 class SignupUseCase {
   async execute(data: CreateUserDto) {
@@ -12,7 +12,7 @@ class SignupUseCase {
       throw new ConflictException("User already exists");
     }
 
-    const hash = bcrypt.hashSync(data.password, 10);
+    const hash = generateHashPassword.execute(data.password);
 
     const createdUser = await prismaUsersRepository.create({
       ...data,
