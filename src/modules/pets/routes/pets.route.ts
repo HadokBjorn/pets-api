@@ -49,4 +49,18 @@ export const petsRoutes = async (app: FastifyTypedInstance) => {
     },
     petsController.findById
   );
+
+  app.delete(
+    "/pets/:id",
+    {
+      schema: {
+        tags: ["pets"],
+        security: [{ bearerAuth: [] }],
+        description: "Deletar o Pet por ID",
+        params: findPetByIdParamSchema,
+        response: 204,
+      },
+    },
+    petsController.delete
+  );
 };
