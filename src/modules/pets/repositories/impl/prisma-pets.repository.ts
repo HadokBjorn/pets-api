@@ -6,6 +6,8 @@ import { PetsRepository } from "../pets.repository";
 import { PetEntity } from "../../entities/pet.entity";
 import { CreatePetDto } from "../../dtos/create-pet.dto";
 import { PetProperties } from "../../enums/pet.enum";
+import paginationUtil from "@/shared/utils/pagination/pagination.util";
+import { PaginationDto } from "@/shared/utils/pagination/dtos/pagination.dto";
 
 class PrismaPetsRepository implements PetsRepository {
   create({
@@ -43,22 +45,34 @@ class PrismaPetsRepository implements PetsRepository {
           filteringUtil.text("gender", filter.gender, TextSearchMode.Exact),
         ],
       },
-      include: { location: true, photos: true },
+      include: {
+        location: true,
+        photos: { select: { id: true, image: true } },
+      },
     });
   }
 
-  findAll(filter?: Partial<PetEntity>): Promise<PetEntity[]> {
+  findAll(filter?: Partial<PetEntity> & PaginationDto): Promise<PetEntity[]> {
     return prisma.pet.findMany({
       where: {
         AND: [
-          filteringUtil.text("name", filter.name),
-          filteringUtil.text("breed", filter.breed),
-          filteringUtil.text("status", filter.status, TextSearchMode.Exact),
-          filteringUtil.text("specie", filter.specie, TextSearchMode.Exact),
-          filteringUtil.text("gender", filter.gender, TextSearchMode.Exact),
+          filteringUtil.text("name", filter?.name),
+          filteringUtil.text("breed", filter?.breed),
+          filteringUtil.text("status", filter?.status, TextSearchMode.Exact),
+          filteringUtil.text("specie", filter?.specie, TextSearchMode.Exact),
+          filteringUtil.text("gender", filter?.gender, TextSearchMode.Exact),
         ],
       },
-      include: { location: true, photos: true },
+      ...paginationUtil.buildParams({
+        limit: filter?.limit,
+        page: filter?.page,
+        order: filter?.order,
+        sortBy: filter?.sortBy,
+      }),
+      include: {
+        location: true,
+        photos: { select: { id: true, image: true } },
+      },
     });
   }
 
@@ -76,7 +90,10 @@ class PrismaPetsRepository implements PetsRepository {
           ? { connect: { id: data.locationId } }
           : undefined,
       },
-      include: { location: true, photos: true },
+      include: {
+        location: true,
+        photos: { select: { id: true, image: true } },
+      },
     });
   }
 

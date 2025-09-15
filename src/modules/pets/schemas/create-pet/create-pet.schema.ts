@@ -9,5 +9,5 @@ export const createPetBodySchema = z.object({
   gender: z.enum(PetProperties.Gender),
   status: z.enum(PetProperties.Status).optional(),
   locationId: z.string(),
-  images: z.array(z.url()).optional(),
+  photos: z.array(z.url()).optional(),
 });

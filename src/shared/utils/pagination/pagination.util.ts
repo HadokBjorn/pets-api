@@ -1,4 +1,4 @@
-import { Pagination } from "@/shared/interfaces/pagination.interface";
+import { Pagination } from "@/shared/utils/pagination/dtos/pagination.dto";
 
 interface PaginateResult {
   skip: number;
@@ -11,7 +11,7 @@ class PaginationUtil {
     const {
       page = 1,
       limit = 10,
-      sort_by = "criado_em",
+      sortBy = "createdAt",
       order = "desc",
     } = params;
 
@@ -24,8 +24,8 @@ class PaginationUtil {
       take: sanitizedLimit,
     };
 
-    if (sort_by) {
-      result.orderBy = { [sort_by]: order };
+    if (sortBy) {
+      result.orderBy = { [sortBy]: order };
     }
 
     return result;

@@ -1,6 +1,6 @@
-export interface Pagination {
+export class PaginationDto {
   page?: number;
   limit?: number;
-  sort_by?: string;
+  sortBy?: string;
   order?: "asc" | "desc";
 }
