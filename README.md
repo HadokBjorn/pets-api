@@ -1,11 +1,11 @@
 # Pets-api
 
 // Endpoints principais
-GET /pets  
-GET /pets/:id  
-POST /pets  
+GET /pets  => OK
+GET /pets/:id  => OK
+POST /pets  => OK
 PUT /pets/:id  
-DELETE /pets/:id  
+DELETE /pets/:id  => OK
 GET /pets/search  
 GET /pets/stats
   
