@@ -2,6 +2,7 @@ import prismaUsersRepository from "@/modules/users/repositories/impl/prisma-user
 import { AdoptPetDto } from "../dtos/adopt-pet.dto";
 import { NotFoundException } from "@/shared/exceptions";
 import prismaPetsRepository from "../repositories/impl/prisma-pets.repository";
+import { PetProperties } from "../enums/pet.enum";
 
 class AdoptPetUseCase {
   async execute({ petId, userId }: AdoptPetDto) {
@@ -20,6 +21,7 @@ class AdoptPetUseCase {
     await prismaPetsRepository.update(pet.id, {
       adoptedAt: new Date(),
       adoptedBy: userId,
+      status: PetProperties.Status.ADOPTED,
     });
   }
 }
