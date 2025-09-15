@@ -8,5 +8,5 @@ export class CreatePetDto {
   gender: PetProperties.Gender;
   status: PetProperties.Status;
   locationId: string;
-  images?: string[];
+  photos?: string[];
 }

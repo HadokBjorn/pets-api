@@ -7,6 +7,8 @@ import { findPetsParamsSchema } from "../schemas/find-pets/find-pets.schema";
 import { findPetByIdResponseSchema } from "../schemas/find-pet-by-id/find-pet-by-id-response.schema";
 import { findPetByIdParamSchema } from "../schemas/find-pet-by-id/find-pet-by-id.schema";
 import { adoptPetBodySchema } from "../schemas/adopt-pet/adopt-pet.schema";
+import { updatePetBodySchema } from "../schemas/update-pet/update-pet.schema";
+import { updatePetResponseSchema } from "../schemas/update-pet/update-pet-response.schema";
 
 export const petsRoutes = async (app: FastifyTypedInstance) => {
   app.post(
@@ -63,6 +65,21 @@ export const petsRoutes = async (app: FastifyTypedInstance) => {
       },
     },
     petsController.findById
+  );
+
+  app.patch(
+    "/pets/:id",
+    {
+      schema: {
+        tags: ["pets"],
+        security: [{ bearerAuth: [] }],
+        description: "Atualizar Pet por ID",
+        params: findPetByIdParamSchema,
+        body: updatePetBodySchema,
+        response: { 200: updatePetResponseSchema },
+      },
+    },
+    petsController.update
   );
 
   app.delete(

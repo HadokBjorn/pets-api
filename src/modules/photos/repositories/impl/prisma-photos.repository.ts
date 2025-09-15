@@ -6,5 +6,9 @@ class PrismaPhotosRepository implements PhotosRepository {
   async createMany(data: CreatePhotoDto[]): Promise<void> {
     await prisma.photo.createMany({ data });
   }
+
+  async deleteMany(petId: string): Promise<void> {
+    await prisma.photo.deleteMany({ where: { petId } });
+  }
 }
 export default new PrismaPhotosRepository();
