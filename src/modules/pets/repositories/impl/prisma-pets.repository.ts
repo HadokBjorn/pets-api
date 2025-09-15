@@ -43,7 +43,7 @@ class PrismaPetsRepository implements PetsRepository {
           filteringUtil.text("gender", filter.gender, TextSearchMode.Exact),
         ],
       },
-      include: { location: true },
+      include: { location: true, photos: true },
     });
   }
 
@@ -58,7 +58,7 @@ class PrismaPetsRepository implements PetsRepository {
           filteringUtil.text("gender", filter.gender, TextSearchMode.Exact),
         ],
       },
-      include: { location: true },
+      include: { location: true, photos: true },
     });
   }
 
@@ -76,7 +76,7 @@ class PrismaPetsRepository implements PetsRepository {
           ? { connect: { id: data.locationId } }
           : undefined,
       },
-      include: { location: true },
+      include: { location: true, photos: true },
     });
   }
 
