@@ -6,6 +6,7 @@ import { findPetsResponseSchema } from "../schemas/find-pets/find-pets-response.
 import { findPetsParamsSchema } from "../schemas/find-pets/find-pets.schema";
 import { findPetByIdResponseSchema } from "../schemas/find-pet-by-id/find-pet-by-id-response.schema";
 import { findPetByIdParamSchema } from "../schemas/find-pet-by-id/find-pet-by-id.schema";
+import { adoptPetBodySchema } from "../schemas/adopt-pet/adopt-pet.schema";
 
 export const petsRoutes = async (app: FastifyTypedInstance) => {
   app.post(
@@ -34,6 +35,20 @@ export const petsRoutes = async (app: FastifyTypedInstance) => {
       },
     },
     petsController.findAll
+  );
+
+  app.post(
+    "/pets/adopt",
+    {
+      schema: {
+        tags: ["pets"],
+        security: [{ bearerAuth: [] }],
+        description: "Adotar um Pet",
+        response: 200,
+        body: adoptPetBodySchema,
+      },
+    },
+    petsController.adopt
   );
 
   app.get(

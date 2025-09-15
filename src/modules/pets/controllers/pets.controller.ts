@@ -7,6 +7,8 @@ import { FindPetsDto } from "../dtos/find-pets.dto";
 import { FindPetByIdDto } from "../dtos/find-pet-by-id.dto";
 import findPetByIdUseCase from "../usecases/find-pet-by-id.usecase";
 import deletePetUseCase from "../usecases/delete-pet.usecase";
+import { AdoptPetDto } from "../dtos/adopt-pet.dto";
+import adoptPetUseCase from "../usecases/adopt-pet.usecase";
 
 class PetsController {
   async create(
@@ -47,6 +49,12 @@ class PetsController {
     await deletePetUseCase.execute(id);
 
     reply.status(httpStatus.NO_CONTENT);
+  }
+
+  async adopt(req: FastifyRequest<{ Body: AdoptPetDto }>, reply: FastifyReply) {
+    await adoptPetUseCase.execute(req.body);
+
+    reply.status(httpStatus.OK);
   }
 }
 export default new PetsController();

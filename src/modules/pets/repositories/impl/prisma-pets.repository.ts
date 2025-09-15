@@ -89,6 +89,8 @@ class PrismaPetsRepository implements PetsRepository {
         location: data.locationId
           ? { connect: { id: data.locationId } }
           : undefined,
+        adoptedAt: data.adoptedAt,
+        user: data.adoptedBy ? { connect: { id: data.adoptedBy } } : undefined,
       },
       include: {
         location: true,
