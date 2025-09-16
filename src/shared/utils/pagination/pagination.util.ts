@@ -1,4 +1,4 @@
-import { Pagination } from "@/shared/utils/pagination/dtos/pagination.dto";
+import { PaginationDto } from "./dtos/pagination.dto";
 
 interface PaginateResult {
   skip: number;
@@ -7,7 +7,7 @@ interface PaginateResult {
 }
 
 class PaginationUtil {
-  buildParams(params: Pagination): PaginateResult {
+  buildParams(params: PaginationDto): PaginateResult {
     const {
       page = 1,
       limit = 10,
