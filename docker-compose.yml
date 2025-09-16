@@ -1,0 +1,38 @@
+services:
+  postgres:
+    image: postgres
+    volumes:
+      - pets-api-volume:/var/lib/postgresql/data
+    container_name: postgres-container
+    ports:
+      - "5435:5432"
+    environment:
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=pets
+    networks:
+      - pets-api-network
+  pets-api:
+    build: ./
+    container_name: pets-api-container
+    ports:
+      - "5500:5000"
+    environment:
+      - DATABASE_URL=postgresql://postgres:postgres@postgres:5432/pets?schema=public
+    networks:
+      - pets-api-network
+    depends_on:
+      - postgres
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin-container
+    ports:
+      - 8080:80
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=hadok@dev.com
+      - PGADMIN_DEFAULT_PASSWORD=postgres
+    networks:
+      - pets-api-network
+networks:
+  pets-api-network:
+volumes:
+  pets-api-volume:

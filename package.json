@@ -5,12 +5,12 @@
   "main": "app.js",
   "scripts": {
     "prebuild": "rm -rf dist",
-    "build": "npm run prebuild && tsc --project tsconfig.build.json && tscpaths -p tsconfig.build.json -s ./src -o ./dist/app.js",
+    "build": "npm run prebuild && tsup src",
     "migrate:dev": "prisma migrate dev",
     "migrate:prod": "prisma migrate deploy",
     "seed": "prisma db seed",
     "dev": "cross-env NODE_ENV=development tsx watch --env-file .env src/app.ts",
-    "start": "npm run migrate:prod && npm run seed && node dist/index.js",
+    "start": "npm run migrate:prod && npm run seed && node dist/app.js",
     "test": "jest"
   },
   "keywords": [],
@@ -47,6 +47,7 @@
     "fastify-type-provider-zod": "^6.0.0",
     "http-status": "^1.6.2",
     "jsonwebtoken": "^9.0.0",
+    "tsup": "^8.5.0",
     "zod": "^4.1.7"
   }
 }
