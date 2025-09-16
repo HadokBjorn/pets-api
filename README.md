@@ -4,12 +4,12 @@
 GET /pets  => OK
 GET /pets/:id  => OK
 POST /pets  => OK
-PUT /pets/:id  
+PUT /pets/:id  => OK
 DELETE /pets/:id  => OK
-GET /pets/search  
-GET /pets/stats
+GET /pets/search  => Já existem filtros no get all
+GET /pets/stats => OK
   
-POST /pets/:id/adopt
+POST /pets/adopt => OK
 
 GET /users  => OK
 POST /users  => /auth/signup
