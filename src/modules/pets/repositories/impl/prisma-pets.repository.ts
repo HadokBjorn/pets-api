@@ -104,6 +104,20 @@ class PrismaPetsRepository implements PetsRepository {
       where: { id },
     });
   }
+
+  count(filter?: Partial<PetEntity>): Promise<number> {
+    return prisma.pet.count({
+      where: {
+        AND: [
+          filteringUtil.text("name", filter?.name),
+          filteringUtil.text("breed", filter?.breed),
+          filteringUtil.text("status", filter?.status, TextSearchMode.Exact),
+          filteringUtil.text("specie", filter?.specie, TextSearchMode.Exact),
+          filteringUtil.text("gender", filter?.gender, TextSearchMode.Exact),
+        ],
+      },
+    });
+  }
 }
 
 export default new PrismaPetsRepository();

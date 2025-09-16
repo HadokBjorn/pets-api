@@ -11,6 +11,7 @@ import { AdoptPetDto } from "../dtos/adopt-pet.dto";
 import adoptPetUseCase from "../usecases/adopt-pet.usecase";
 import { UpdatePetDto } from "../dtos/update-pet.dto";
 import updatePetUseCase from "../usecases/update-pet.usecase";
+import statsPetsUseCase from "../usecases/stats-pets.usecase";
 
 class PetsController {
   async create(
@@ -68,6 +69,12 @@ class PetsController {
     await adoptPetUseCase.execute(req.body);
 
     reply.status(httpStatus.OK);
+  }
+
+  async stats(req: FastifyRequest, reply: FastifyReply) {
+    const result = await statsPetsUseCase.execute();
+
+    reply.status(httpStatus.OK).send({ result });
   }
 }
 export default new PetsController();

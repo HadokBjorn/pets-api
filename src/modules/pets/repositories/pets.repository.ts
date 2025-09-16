@@ -10,4 +10,5 @@ export abstract class PetsRepository {
   ): Promise<PetEntity[]>;
   abstract update(id: string, data: Partial<PetEntity>): Promise<PetEntity>;
   abstract delete(id: string): Promise<void>;
+  abstract count(filter?: Partial<PetEntity>): Promise<number>;
 }

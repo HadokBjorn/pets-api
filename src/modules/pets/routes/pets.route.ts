@@ -9,6 +9,7 @@ import { findPetByIdParamSchema } from "../schemas/find-pet-by-id/find-pet-by-id
 import { adoptPetBodySchema } from "../schemas/adopt-pet/adopt-pet.schema";
 import { updatePetBodySchema } from "../schemas/update-pet/update-pet.schema";
 import { updatePetResponseSchema } from "../schemas/update-pet/update-pet-response.schema";
+import { statsPetsResponseSchema } from "../schemas/stats-pets/stats-pets-response.schema";
 
 export const petsRoutes = async (app: FastifyTypedInstance) => {
   app.post(
@@ -51,6 +52,19 @@ export const petsRoutes = async (app: FastifyTypedInstance) => {
       },
     },
     petsController.adopt
+  );
+
+  app.get(
+    "/pets/stats",
+    {
+      schema: {
+        tags: ["pets"],
+        security: [{ bearerAuth: [] }],
+        description: "Estatísticas dos Pets",
+        response: { 200: statsPetsResponseSchema },
+      },
+    },
+    petsController.stats
   );
 
   app.get(
