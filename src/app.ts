@@ -42,14 +42,15 @@ app.register(fastifySwagger, {
 app.register(routes);
 
 app.get("/health", (req, reply) =>
-  reply.send("Tudo certinho com a API😎 ").status(httpStatus.OK)
+  reply.status(httpStatus.OK).send("Tudo certinho com a API😎 ")
 );
 
 app.register(fastifySwaggerUi, { routePrefix: "/docs" });
 
 const port = process.env.PORT ? Number(process.env.PORT) : 5000;
+const host = process.env.host ? process.env.HOST : "0.0.0.0";
 
-app.listen({ port }).then(() => {
+app.listen({ port, host }).then(() => {
   console.log(`Server is running on port ${port}`);
   if ((process.env.NODE_ENV = "development")) {
     console.table({ documentation_url: `http://localhost:${port}/docs` });

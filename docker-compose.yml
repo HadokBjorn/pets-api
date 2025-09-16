@@ -1,9 +1,9 @@
 services:
   postgres:
     image: postgres
+    container_name: postgres-container
     volumes:
       - pets-api-volume:/var/lib/postgresql/data
-    container_name: postgres-container
     ports:
       - "5435:5432"
     environment:
@@ -11,6 +11,13 @@ services:
       - POSTGRES_DB=pets
     networks:
       - pets-api-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d pets"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
   pets-api:
     build: ./
     container_name: pets-api-container
@@ -18,10 +25,14 @@ services:
       - "5500:5000"
     environment:
       - DATABASE_URL=postgresql://postgres:postgres@postgres:5432/pets?schema=public
+      - PORT=5000
+      - HOST=0.0.0.0
     networks:
       - pets-api-network
     depends_on:
-      - postgres
+      postgres:
+        condition: service_healthy
+
   pgadmin:
     image: dpage/pgadmin4
     container_name: pgadmin-container
@@ -32,7 +43,9 @@ services:
       - PGADMIN_DEFAULT_PASSWORD=postgres
     networks:
       - pets-api-network
+
 networks:
   pets-api-network:
+
 volumes:
   pets-api-volume:
